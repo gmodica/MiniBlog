@@ -1,0 +1,211 @@
+﻿@{
+    var description = "Giovanni Modica's blog about technology";
+}
+
+<!doctype html>
+<html lang="en-us">
+<head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link type="application/rsd+xml" rel="edituri" title="RSD" href="~/views/robots/rsd" />
+    <link type="application/rss+xml" rel="alternate" title="@Blog.Title" href="~/feed/rss/" />
+    <link type="application/atom+xml" rel="alternate" title="@Blog.Title" href="~/feed/atom/" />
+
+    <link rel="stylesheet" href="@Blog.FingerPrint("/css/bootstrap-3.0.0.css", "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/site.css")" />
+    <link rel="dns-prefetch" href="http://gravatar.com/" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Blog.FingerPrint("/apple-touch-icon-144x144-precomposed.png")">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Blog.FingerPrint("/apple-touch-icon-114x114-precomposed.png")">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Blog.FingerPrint("/apple-touch-icon-72x72-precomposed.png")">
+    <link rel="apple-touch-icon-precomposed" href="@Blog.FingerPrint("/apple-touch-icon-precomposed.png")">
+    <link rel="shortcut icon" href="@Blog.FingerPrint("/favicon.ico")" type="image/x-icon" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="&#64;giovannimodica">
+    <meta name="twitter:domain" content="giovannimodica.com">
+    <meta name="twitter:creator" content="&#64;giovannimodica">
+    <meta name="twitter:title" content="Giovanni Modica's Web Site">
+    <meta name="twitter:description" content="@description">
+    <meta name="twitter:image" content="http://giovannimodica.com/Content/images/profilePhoto.jpg">
+
+    <!-- Windows -->
+    <meta name="application-name" content="@Blog.Title" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-square70x70logo" content="tiny.jpg" />
+    <meta name="msapplication-square150x150logo" content="square.jpg" />
+    <meta name="msapplication-wide310x150logo" content="wide.jpg" />
+    <meta name="msapplication-square310x310logo" content="large.jpg" />
+
+    @AdminCss()
+
+    <!-- Facebook Open Graph-->
+    <meta property="og:title" content="@Page.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + Request.RawUrl)" />
+    <meta property="og:image" content="http://giovannimodica.com/Content/images/profilePhoto.jpg" />
+    <meta property="og:site_name" content="@Blog.Title" />
+    <meta property="og:description" content="@description" />
+</head>
+<body itemscope itemtype="http://schema.org/Blog" class="@(User.Identity.IsAuthenticated ? "admin": null)">
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://giovannimodica.com/Home"><img src="http://giovannimodica.com/Content/images/gmodica.png" alt="Giovanni Modica" style="height: 18px; width: 120px" /></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://giovannimodica.com/Home"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+                    <li><a href="http://giovannimodica.com/Resume"><span class="glyphicon glyphicon-file"></span> Resume</a></li>
+                    <li class="active"><a href="~/"><span class="glyphicon glyphicon-book"></span> Blog</a></li>
+                    <li><a href="http://giovannimodica.com/Personal"><i class="glyphicon glyphicon-user"></i> Personal</a></li>
+                    <li><a target="_blank" href="http://www.modicatech.com/products.html"><span class="glyphicon glyphicon-barcode"></span> Apps</a></li>
+                    <li><a target="_blank" href="http://about.me/giovannimodica"><i class="glyphicon glyphicon-user"></i> About Me</a></li>
+                    <li><a href="mailto:giovanni.modica@gmail.com"><i class="glyphicon glyphicon-envelope"></i> Contact</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    }
+    
+    <div class="container">
+        <header role="banner">
+            <span itemprop="name"><a href="~/" itemprop="url">@Blog.Title</a></span><br />
+            <em>By Giovanni Modica</em>
+        </header>
+
+        <div role="main" class="col-md-9">
+            @RenderBody()
+
+            @if (Page.ShowPaging != null)
+            {
+                <ul class="pager">
+                    @if (Blog.GetPosts(Blog.PostsPerPage * 2).Count() > Blog.PostsPerPage)
+                    {
+                        <li class="previous"><a href="@Blog.GetPagingUrl(1)" rel="prev">&larr; Older</a></li>
+                    }
+
+                    @if (Blog.CurrentPage > 1)
+                    {
+                        <li class="next"><a href="@Blog.GetPagingUrl(-1)" rel="next">Newer &rarr;</a></li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <aside role="complementary" class="col-md-3">
+            <section>
+                <h3>About me</h3>
+                <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="http://giovannimodica.com/Content/images/profilePhoto.jpg"/> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
+            </section>
+
+            <section>
+                <!-- Links -->
+                <div class="panel panel-info">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> Links</div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item"><img src="http://giovannimodica.com/Content/images/icons/cumulo.png" alt="Cumulo Logo" /> <a href="http://www.cumuloapp.com">Cumulo</a></li>
+                        <li class="list-group-item"><img src="http://giovannimodica.com/Content/images/icons/modicatech.png" alt="ModicaTech Logo" /> <a href="http://www.modicatech.com">ModicaTech</a></li>
+                        <li class="list-group-item"><img src="http://giovannimodica.com/Content/images/icons/outlook.png" alt="Outlook Logo" /> <a href="~/Content/Outlook Gadget.zip">Outlook Gadget</a></li>
+                    </ul>
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    <footer class="text-center hidden-print" role="contentinfo" itemscope itemtype="http://schema.org/Person" itemprop="author">
+        <div class="container">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Twitter - Begin -->
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.giovannimodica.com" data-text="visit Giovanni Modica web site" data-via="giovannimodica" data-related="giovannimodica">Tweet</a>
+                        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+                        <a href="https://twitter.com/giovannimodica" class="twitter-follow-button" data-show-count="true">Follow @@giovannimodica</a>
+                        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+                        <!-- Twitter - End -->
+
+                        <!-- Facebook - Begin -->
+                        <!--
+                    <div class="fb-like" data-href="http://www.facebook.com/giovannimodica" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
+                    -->
+                        <!-- Facebook - End -->
+
+                        <!-- Google - Begin -->
+                        <div class="g-plusone" data-size="medium"></div>
+                        <script type="text/javascript">
+                            (function () {
+                                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                                po.src = 'https://apis.google.com/js/plusone.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                            })();
+                        </script>
+                        <a href="https://plus.google.com/103253401701315029212?rel=author"></a>
+                        <a href="https://plus.google.com/103253401701315029212" rel="publisher"></a>
+                        <!-- Google - End -->
+                    </div>
+
+                    <div class="col-md-4">
+                        <p class="pull-right">Copyright &copy; 2013 Giovanni Modica</p>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-12">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <span class="pull-right">
+                            <a href="@FormsAuthentication.LoginUrl?ReturnUrl=@Request.RawUrl">Sign in <i class="glyphicon glyphicon-lock"></i></a>
+                        </span>
+                    }
+
+                    <span class="pull-left">
+                        blog engine thanks to <a target="_blank" href="http://madskristensen.net">Mads Kristensen's</a> <a target="_blank" href="https://github.com/madskristensen/miniblog">MiniBlog</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    @if ((Blog.CurrentPost != null && Blog.CurrentPost.AreCommentsOpen(Context)) || Blog.IsNewPost)
+    {
+        <script src="@Blog.FingerPrint("/scripts/comments.js")" async defer></script>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        @RenderPage("~/views/AdminMenu.cshtml")
+    }
+
+</body>
+</html>
+
+@helper AdminCss()
+{
+    if (User.Identity.IsAuthenticated)
+    {
+        <link href="@Blog.FingerPrint("/css/admin.css")" rel="stylesheet" />
+    }
+}
