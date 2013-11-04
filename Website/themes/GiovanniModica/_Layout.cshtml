@@ -130,54 +130,22 @@
 
     <footer class="text-center hidden-print" role="contentinfo" itemscope itemtype="http://schema.org/Person" itemprop="author">
         <div class="container">
-            @if (!User.Identity.IsAuthenticated)
-            {
-                <div class="row">
-                    <div class="col-md-8">
-                        <!-- Twitter - Begin -->
-                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.giovannimodica.com" data-text="visit Giovanni Modica web site" data-via="giovannimodica" data-related="giovannimodica">Tweet</a>
-                        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-                        <a href="https://twitter.com/giovannimodica" class="twitter-follow-button" data-show-count="true">Follow @@giovannimodica</a>
-                        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-                        <!-- Twitter - End -->
-
-                        <!-- Facebook - Begin -->
-                        <!--
-                    <div class="fb-like" data-href="http://www.facebook.com/giovannimodica" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-font="arial"></div>
-                    -->
-                        <!-- Facebook - End -->
-
-                        <!-- Google - Begin -->
-                        <div class="g-plusone" data-size="medium"></div>
-                        <script type="text/javascript">
-                            (function () {
-                                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                                po.src = 'https://apis.google.com/js/plusone.js';
-                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-                            })();
-                        </script>
-                        <a href="https://plus.google.com/103253401701315029212?rel=author"></a>
-                        <a href="https://plus.google.com/103253401701315029212" rel="publisher"></a>
-                        <!-- Google - End -->
-                    </div>
-
-                    <div class="col-md-4">
-                        <p class="pull-right">Copyright &copy; 2013 Giovanni Modica</p>
-                    </div>
-                </div>
-            }
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
+                    <span class="pull-left">
+                        blog engine thanks to <a target="_blank" href="http://madskristensen.net">Mads Kristensen's</a> <a target="_blank" href="https://github.com/madskristensen/miniblog">MiniBlog</a>
+                    </span>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-center">Copyright &copy; 2013 Giovanni Modica</p>
+                </div>
+                <div class="col-md-4">
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <span class="pull-right">
                             <a href="@FormsAuthentication.LoginUrl?ReturnUrl=@Request.RawUrl">Sign in <i class="glyphicon glyphicon-lock"></i></a>
                         </span>
                     }
-
-                    <span class="pull-left">
-                        blog engine thanks to <a target="_blank" href="http://madskristensen.net">Mads Kristensen's</a> <a target="_blank" href="https://github.com/madskristensen/miniblog">MiniBlog</a>
-                    </span>
                 </div>
             </div>
         </div>
