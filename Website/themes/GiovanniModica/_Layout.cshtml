@@ -198,8 +198,41 @@
     {
         @RenderPage("~/views/AdminMenu.cshtml")
     }
+    
+    <script src="~/syntaxhighlighter/scripts/shCore.js"></script>
+    <script src="~/syntaxhighlighter/scripts/shAutoloader.js"></script>
 
+    <script type="text/javascript">
+        function path()
+        {
+          var args = arguments,
+              result = []
+              ;
+
+          for(var i = 0; i < args.length; i++)
+              result.push(args[i].replace('@@', '/syntaxhighlighter/scripts/'));
+
+          return result
+        };
+
+        SyntaxHighlighter.autoloader.apply(null, path(
+          'cpp c                  @@shBrushCpp.js',
+          'c# c-sharp csharp      @@shBrushCSharp.js',
+          'css                    @@shBrushCss.js',
+          'java                   @@shBrushJava.js',
+          'js jscript javascript  @@shBrushJScript.js',
+          'text plain             @@shBrushPlain.js',
+          'sql                    @@shBrushSql.js',
+          'vb vbnet               @@shBrushVb.js',
+          'xml xhtml xslt html    @@shBrushXml.js'
+        ));
+        SyntaxHighlighter.all();
+    </script>
+
+    <link href="~/syntaxhighlighter/styles/shCore.css" rel="stylesheet" />
+    <link href="~/syntaxhighlighter/styles/shCoreDefault.css" rel="stylesheet" />
 </body>
+
 </html>
 
 @helper AdminCss()
