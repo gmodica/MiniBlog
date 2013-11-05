@@ -1,4 +1,5 @@
-﻿<article class="post" data-id="@Model.ID" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+﻿
+<article class="post" data-id="@Model.ID" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
     <header class="jumbotron">
         <h1 itemprop="headline name">
             <a href="@Model.Url" itemprop="url">@Model.Title</a>
@@ -15,12 +16,7 @@
 
     <div itemprop="articleBody">@Html.Raw(Model.Content)</div>
 
-    <!-- Twitter - Begin -->
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="@Model.Url" data-text="@Model.Title" data-via="giovannimodica" data-related="giovannimodica">Tweet</a>
-    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-    <a href="https://twitter.com/giovannimodica" class="twitter-follow-button" data-show-count="true">Follow @@giovannimodica</a>
-    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-    <!-- Twitter - End -->
+    @ShareButtons()
 
     @if (Blog.CurrentPost != null)
     {
@@ -57,4 +53,20 @@
             }
         </ul>
     }
+}
+
+@helper ShareButtons()
+{
+    
+    string postUrl = string.Format("{0}://{1}{2}",(Request.IsSecureConnection) ? "https" : "http",Request.Headers["Host"],VirtualPathUtility.ToAbsolute(Model.Url.ToString()));
+    string hashtags = Model.Categories.Length > 0 ? "#" + String.Join(" #",Model.Categories) : "";    
+    
+    <!-- Twitter - Begin -->
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="@postUrl" data-text="@Model.Title @hashtags" data-via="giovannimodica">Tweet</a>
+    <!-- Twitter - End -->
+        
+    <!-- Google - Begin -->
+    <div class="g-plusone" data-annotation="inline" data-width="300" data-href="@postUrl"></div>
+    <!-- Google - End -->
+    
 }

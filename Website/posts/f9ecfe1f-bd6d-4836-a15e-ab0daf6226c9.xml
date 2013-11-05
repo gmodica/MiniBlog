@@ -166,7 +166,7 @@ public class SystemInformationComponentTest{
     }
 }
 &lt;/pre&gt;</content>
-  <ispublished>false</ispublished>
+  <ispublished>true</ispublished>
   <categories>
     <category>visualforce</category>
     <category>salesforce</category>

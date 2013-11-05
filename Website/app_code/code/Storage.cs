@@ -22,6 +22,42 @@ public static class Storage
         return new List<Post>();
     }
 
+    public static Dictionary<string, int> GetAllCategories()
+    {
+        if (HttpRuntime.Cache["categories"] == null)
+            LoadCategories();
+
+        if (HttpRuntime.Cache["categories"] != null)
+        {
+            return (Dictionary<string, int>)HttpRuntime.Cache["categories"];
+        }
+        return new Dictionary<string, int>();
+    }
+
+    public static void LoadCategories()
+    {
+        List<Post> posts = GetAllPosts();
+
+        Dictionary<string,int> categoryList = new Dictionary<string,int>();
+
+        foreach (Post post in posts)
+        {
+            if (post.IsPublished)
+            {
+                foreach (string category in post.Categories)
+                {
+                    if (categoryList.ContainsKey(category))
+                        categoryList[category]++;
+                    else
+                        categoryList.Add(category, 1);
+                }
+            }
+        }
+
+        if(categoryList.Count > 0)
+            HttpRuntime.Cache.Insert("categories", categoryList);
+    }
+
     public static void Save(Post post)
     {
         string file = Path.Combine(_folder, post.ID + ".xml");

@@ -93,6 +93,11 @@ public static class Blog
         return posts.Skip(postsPerPage * (CurrentPage - 1)).Take(postsPerPage);
     }
 
+    public static Dictionary<string, int> GetTagCloud()
+    {
+        return Storage.GetAllCategories();
+    }
+
     public static string SaveFileToDisk(byte[] bytes, string extension)
     {
         string relative = "~/posts/files/" + Guid.NewGuid() + "." + extension.Trim('.');

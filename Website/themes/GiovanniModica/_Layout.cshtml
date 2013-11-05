@@ -53,7 +53,6 @@
     <!--[if lt IE 7]>
         <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
-
     @if (!User.Identity.IsAuthenticated)
     {
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +80,7 @@
             </div><!-- /.navbar-collapse -->
         </nav>
     }
-    
+
     <div class="container">
         <header role="banner">
             <span itemprop="name"><a href="~/" itemprop="url">@Blog.Title</a></span><br />
@@ -110,19 +109,14 @@
         <aside role="complementary" class="col-md-3">
             <section>
                 <h3>About me</h3>
-                <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="~/square.jpg"/> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
+                <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="~/square.jpg" /> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
             </section>
 
+            <br />
             <section>
-                <!-- Links -->
                 <div class="panel panel-info">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> Links</div>
-
-                    <ul class="list-group">
-                        <li class="list-group-item"><img src="http://giovannimodica.com/Content/images/icons/cumulo.png" alt="Cumulo Logo" /> <a href="http://www.cumuloapp.com">Cumulo</a></li>
-                        <li class="list-group-item"><img src="http://giovannimodica.com/Content/images/icons/modicatech.png" alt="ModicaTech Logo" /> <a href="http://www.modicatech.com">ModicaTech</a></li>
-                        <li class="list-group-item"><img src="http://giovannimodica.com/Content/images/icons/outlook.png" alt="Outlook Logo" /> <a href="~/Content/Outlook Gadget.zip">Outlook Gadget</a></li>
-                    </ul>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-cloud pull-right"></span> Tag Cloud</div>
+                    @TagCloud()
                 </div>
             </section>
         </aside>
@@ -161,21 +155,22 @@
     {
         @RenderPage("~/views/AdminMenu.cshtml")
     }
-    
+
+    <script src="~/scripts/jquery-2.0.2.js"></script>
+
     <script src="~/syntaxhighlighter/scripts/shCore.js"></script>
     <script src="~/syntaxhighlighter/scripts/shAutoloader.js"></script>
 
     <script type="text/javascript">
-        function path()
-        {
-          var args = arguments,
-              result = []
-              ;
+        function path() {
+            var args = arguments,
+                result = []
+            ;
 
-          for(var i = 0; i < args.length; i++)
-              result.push(args[i].replace('@@', '/syntaxhighlighter/scripts/'));
+            for (var i = 0; i < args.length; i++)
+                result.push(args[i].replace('@@', '/syntaxhighlighter/scripts/'));
 
-          return result
+            return result
         };
 
         SyntaxHighlighter.autoloader.apply(null, path(
@@ -194,6 +189,32 @@
 
     <link href="~/syntaxhighlighter/styles/shCore.css" rel="stylesheet" />
     <link href="~/syntaxhighlighter/styles/shCoreDefault.css" rel="stylesheet" />
+
+    <script src="~/scripts/jquery.tagcloud.js"></script>
+
+    <script type="text/javascript">
+        $.fn.tagcloud.defaults = {
+            size: { start: 14, end: 24, unit: 'pt' },
+            color: { start: '#000', end: '#FFF' }
+        };
+
+        $(function () {
+            $('#tagcloud a').tagcloud();
+        });
+
+    </script>
+
+    <!-- Tweeter -->
+    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+    <!-- Google -->
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
 </body>
 
 </html>
@@ -204,4 +225,20 @@
     {
         <link href="@Blog.FingerPrint("/css/admin.css")" rel="stylesheet" />
     }
+}
+
+@helper TagCloud()
+{
+    Dictionary<string, int> tags = Blog.GetTagCloud();
+    
+    <div id="tagcloud" style="margin: 10px">
+        @foreach(string tag in tags.Keys)
+        {
+            string path = String.Concat("/?category=", tag);
+            int weight = tags[tag];
+
+            <a href="@path" rel="@weight">@tag</a>
+        }
+    </div>
+
 }
