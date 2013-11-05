@@ -122,6 +122,12 @@ input[type], button, textarea {
     padding: .2em 0;
 }
 
+.post {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+    margin-bottom: 10px;
+}
+
 /*#endregion */
 
 /*#region Comments */
