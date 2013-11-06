@@ -112,11 +112,16 @@
                 <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="~/square.jpg" /> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
             </section>
 
-            <br />
             <section>
-                <div class="panel panel-info">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-cloud pull-right"></span> Tag Cloud</div>
-                    @TagCloud()
+                <p><a href="~/feed/rss/"><img class="rss" src="~/images/rss.png" alt="RSS icon"/></a> <a href="~/feed/rss/">RSS feed</a></p>
+            </section>
+
+            <section>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> Tag Cloud</div>
+                    <div class="panel-body">
+                        @TagCloud()
+                    </div>
                 </div>
             </section>
         </aside>
@@ -125,15 +130,15 @@
     <footer class="text-center hidden-print" role="contentinfo" itemscope itemtype="http://schema.org/Person" itemprop="author">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-sm-4 hidden-xs">
                     <span class="pull-left">
                         blog engine thanks to <a target="_blank" href="http://madskristensen.net">Mads Kristensen's</a> <a target="_blank" href="https://github.com/madskristensen/miniblog">MiniBlog</a>
                     </span>
                 </div>
-                <div class="col-md-4">
-                    <p class="text-center">Copyright &copy; 2013 Giovanni Modica</p>
+                <div class="col-xs-6 col-sm-4">
+                    <span class="text-center">Copyright &copy; 2013 Giovanni Modica</span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-6 col-sm-4">
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <span class="pull-right">
@@ -194,7 +199,7 @@
 
     <script type="text/javascript">
         $.fn.tagcloud.defaults = {
-            size: { start: 14, end: 24, unit: 'pt' },
+            size: { start: 8, end: 20, unit: 'pt' },
             color: { start: '#000', end: '#FFF' }
         };
 
@@ -231,13 +236,13 @@
 {
     Dictionary<string, int> tags = Blog.GetTagCloud();
     
-    <div id="tagcloud" style="margin: 10px">
-        @foreach(string tag in tags.Keys)
+    <div id="tagcloud">
+        @foreach (string tag in tags.Keys)
         {
             string path = String.Concat("/?category=", tag);
             int weight = tags[tag];
 
-            <a href="@path" rel="@weight">@tag</a>
+            <a class="btn btn-default btn-xs" href="@path" rel="@weight">@tag</a>
         }
     </div>
 
