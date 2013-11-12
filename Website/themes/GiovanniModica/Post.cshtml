@@ -57,19 +57,22 @@
 
 @helper ShareButtons()
 {
-    
-    string postUrl = string.Format("{0}://{1}{2}",(Request.IsSecureConnection) ? "https" : "http",Request.Headers["Host"],VirtualPathUtility.ToAbsolute(Model.Url.ToString()));
-    string hashtags = Model.Categories.Length > 0 ? "#" + String.Join(" #",Model.Categories) : "";    
-    
-    <!-- Twitter - Begin -->
-    <a href="https://twitter.com/share" class="twitter-share-button" data-url="@postUrl" data-text="@Model.Title @hashtags" data-via="giovannimodica">Tweet</a>
-    <!-- Twitter - End -->
-        
-    <!-- Google - Begin -->
-    <div class="g-plusone" data-annotation="inline" data-width="300" data-href="@postUrl"></div>
-    <!-- Google - End -->
- 
-    <!-- LinkedIn - Begin -->
-    <script type="IN/Share" data-url="@postUrl" data-counter="right"></script>       
-    <!-- LinkedIn - End -->
+    string postUrl = string.Format("{0}://{1}{2}", (Request.IsSecureConnection) ? "https" : "http", Request.Headers["Host"], VirtualPathUtility.ToAbsolute(Model.Url.ToString()));
+    string hashtags = Model.Categories.Length > 0 ? "#" + String.Join(" #", Model.Categories) : "";
+
+    <div class="hidden-print">
+        <!-- Twitter - Begin -->
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="@postUrl" data-text="@Model.Title @hashtags" data-via="giovannimodica">Tweet</a>
+        <!-- Twitter - End -->
+        <!-- LinkedIn - Begin -->
+        <span style="margin-right: 20px">
+            <script type="IN/Share" data-url="@postUrl" data-counter="right"></script>
+        </span>
+        <!-- LinkedIn - End -->
+        <!-- Google - Begin -->
+        <div class="g-plusone" data-annotation="bubble" data-href="@postUrl" data-size="medium"></div>
+        <div class="g-plus" data-action="share" data-annotation="bubble" data-href="@postUrl" data-height="20"></div>
+        <!-- Google - End -->
+    </div>
 }
+

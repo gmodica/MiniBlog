@@ -57,3 +57,14 @@
         Blog.SetConditionalGetHeaders(lastModified, Context);
     }
 }
+
+@section head
+{
+    @if (!string.IsNullOrEmpty(Blog.CurrentSlug))
+    {
+        Post post = Blog.CurrentPost;
+        if (post != null) {
+           @RenderPage("~/themes/" + Blog.Theme + "/PostHeader.cshtml", post)
+        }
+    }
+}

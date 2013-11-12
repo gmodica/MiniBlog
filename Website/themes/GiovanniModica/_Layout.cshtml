@@ -33,21 +33,37 @@
     <meta name="twitter:creator" content="&#64;giovannimodica">
     <meta name="twitter:title" content="Giovanni Modica's Web Site">
     <meta name="twitter:description" content="@description">
-    <meta name="twitter:image" content="http://giovannimodica.com/Content/images/profilePhoto.jpg">
+    <meta name="twitter:image" content="http://giovannimodica.com/Content/images/profilePhoto.png">
 
     <!-- Windows -->
     <meta name="application-name" content="@Blog.Title" />
 
+    <meta name="msapplication-tooltip" content="Giovanni Modica: Developer, Solution Architect" />
+    <meta name="msapplication-starturl" content="http://giovannimodica.com/" />
+    <meta name="msapplication-task" content="name=Giovanni Modica;action-uri=/;icon-uri=/favicon.ico" />
+    <meta name="msapplication-task" content="name=Giovanni's Resume;action-uri=/Resume;icon-uri=/Content/images/icons/resume.ico" />
+    <meta name="msapplication-task" content="name=Giovanni's Blog;action-uri=http://blog.giovannimodica.com;icon-uri=/Content/images/icons/blog.ico" />
+    <meta name="msapplication-task" content="name=Giovanni on Twitter;action-uri=http://twitter.com/giovannimodica;icon-uri=/Content/images/icons/twitter.ico" />
+    <meta name="msapplication-task" content="name=Giovanni on About.Me;action-uri=http://about.me/giovannimodica;icon-uri=/Content/images/icons/aboutme.ico" />
+    <meta name="msapplication-task" content="name=Giovanni on LinkedIn;action-uri=http://es.linkedin.com/in/gmodica/;icon-uri=/Content/images/icons/linkedin.ico" />
+    <meta name="msapplication-task" content="name=ModicaTech;action-uri=http://modicatech.com;icon-uri=http://modicatech.com/favicon.ico" />
+    <meta name="msapplication-navbutton-color" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="/Content/images/profilePhoto-144.png" />
 
     @AdminCss()
 
+@if (string.IsNullOrEmpty(Blog.CurrentSlug))
+{
     <!-- Facebook Open Graph-->
     <meta property="og:title" content="@Page.Title" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + Request.RawUrl)" />
-    <meta property="og:image" content="http://giovannimodica.com/Content/images/profilePhoto.jpg" />
+    <meta property="og:image" content="http://giovannimodica.com/Content/images/profilePhoto.png" />
     <meta property="og:site_name" content="@Blog.Title" />
     <meta property="og:description" content="@description" />
+}
+
+    @RenderSection("head", required: false)
 </head>
 <body itemscope itemtype="http://schema.org/Blog" class="@(User.Identity.IsAuthenticated ? "admin": null)">
     <!--[if lt IE 7]>
@@ -109,11 +125,11 @@
         <aside role="complementary" class="col-md-3">
             <section>
                 <h3>About me</h3>
-                <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="~/square.jpg" /> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
+                <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="~/images/profilePhoto.png" /> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
             </section>
 
             <section>
-                <p><a href="~/feed/rss/"><img class="rss" src="~/images/rss.png" alt="RSS icon"/></a> <a href="~/feed/rss/">RSS feed</a></p>
+                <p><a href="~/feed/rss/"><img class="rss" src="~/images/rss.png" alt="RSS icon" /></a> <a href="~/feed/rss/">RSS feed</a></p>
             </section>
 
             <section>
@@ -209,7 +225,7 @@
 
     </script>
 
-    <!-- Tweeter -->
+    <!-- Twitter -->
     <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
 
     <!-- Google -->
@@ -223,8 +239,28 @@
 
     <!-- LinkedIn -->
     <script src="//platform.linkedin.com/in.js" type="text/javascript">
-       lang: en_US
+        lang: en_US
     </script>
+
+    @if (!string.IsNullOrEmpty(Blog.CurrentSlug))
+    {
+        <script type="text/javascript">
+            $(document).ready(
+            (function () {
+                var images = document.getElementsByTagName("img");
+                var image = null;
+                
+                if(images.length > 2)
+                    image = images[2];
+
+                if (image != null) {
+                    var po = document.createElement('meta'); po.setAttribute('property', 'og:image');
+                    po.content = image.src;
+                    var s = document.getElementsByTagName('meta')[0]; s.parentNode.insertBefore(po, s);
+                }
+            }));
+        </script>
+    }
 </body>
 
 </html>
