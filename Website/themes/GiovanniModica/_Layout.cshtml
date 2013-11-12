@@ -39,16 +39,15 @@
     <meta name="application-name" content="@Blog.Title" />
 
     <meta name="msapplication-tooltip" content="Giovanni Modica: Developer, Solution Architect" />
-    <meta name="msapplication-starturl" content="http://giovannimodica.com/" />
-    <meta name="msapplication-task" content="name=Giovanni Modica;action-uri=/;icon-uri=/favicon.ico" />
-    <meta name="msapplication-task" content="name=Giovanni's Resume;action-uri=/Resume;icon-uri=/Content/images/icons/resume.ico" />
-    <meta name="msapplication-task" content="name=Giovanni's Blog;action-uri=http://blog.giovannimodica.com;icon-uri=/Content/images/icons/blog.ico" />
-    <meta name="msapplication-task" content="name=Giovanni on Twitter;action-uri=http://twitter.com/giovannimodica;icon-uri=/Content/images/icons/twitter.ico" />
-    <meta name="msapplication-task" content="name=Giovanni on About.Me;action-uri=http://about.me/giovannimodica;icon-uri=/Content/images/icons/aboutme.ico" />
-    <meta name="msapplication-task" content="name=Giovanni on LinkedIn;action-uri=http://es.linkedin.com/in/gmodica/;icon-uri=/Content/images/icons/linkedin.ico" />
+    <meta name="msapplication-starturl" content="http://blog.giovannimodica.com/" />
+    <meta name="msapplication-task" content="name=Giovanni Modica;action-uri=/;icon-uri=http://giovannimodica.com/favicon.ico" />
+    <meta name="msapplication-task" content="name=Giovanni's Resume;action-uri=/Resume;icon-uri=http://giovannimodica.com/Content/images/icons/resume.ico" />
+    <meta name="msapplication-task" content="name=Giovanni's Blog;action-uri=http://blog.giovannimodica.com;icon-uri=http://giovannimodica.com/Content/images/icons/blog.ico" />
+    <meta name="msapplication-task" content="name=Giovanni on Twitter;action-uri=http://twitter.com/giovannimodica;icon-uri=http://giovannimodica.com/Content/images/icons/twitter.ico" />
+    <meta name="msapplication-task" content="name=Giovanni on About.Me;action-uri=http://about.me/giovannimodica;icon-uri=http://giovannimodica.com/Content/images/icons/aboutme.ico" />
+    <meta name="msapplication-task" content="name=Giovanni on LinkedIn;action-uri=http://es.linkedin.com/in/gmodica/;icon-uri=http://giovannimodica.com/Content/images/icons/linkedin.ico" />
     <meta name="msapplication-task" content="name=ModicaTech;action-uri=http://modicatech.com;icon-uri=http://modicatech.com/favicon.ico" />
-    <meta name="msapplication-navbutton-color" content="#FFFFFF" />
-    <meta name="msapplication-TileImage" content="/Content/images/profilePhoto-144.png" />
+    <meta name="msapplication-TileImage" content="http://giovannimodica.com/Content/images/profilePhoto-144.png" />
 
     @AdminCss()
 
@@ -250,8 +249,8 @@
                 var images = document.getElementsByTagName("img");
                 var image = null;
                 
-                if(images.length > 2)
-                    image = images[2];
+                if(images.length > 1)
+                    image = images[1];
 
                 if (image != null) {
                     var po = document.createElement('meta'); po.setAttribute('property', 'og:image');
