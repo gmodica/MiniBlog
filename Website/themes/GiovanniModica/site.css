@@ -123,6 +123,7 @@ input[type], button, textarea {
 }
 
 .post {
+    margin-top: 30px;
     padding-bottom: 10px;
     border-bottom: 1px solid #000;
     margin-bottom: 10px;
@@ -258,4 +259,12 @@ footer {
 aside section {
     margin-top : 10px;
     margin-bottom : 20px;
+}
+
+header.top {
+	padding-top: 60px; margin-top: -40px;
+}
+
+article[id] {
+	padding-top: 100px; margin-top: -400px;
 }

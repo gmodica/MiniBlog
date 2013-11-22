@@ -32,3 +32,4 @@
 /// <reference path="../syntaxhighlighter/scripts/shLegacy.js" />
 /// <reference path="jquery.tagcloud.js" />
 /// <reference path="jquery-2.0.2.js" />
+/// <reference path="bootstrap.js" />

@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" href="@Blog.FingerPrint("/css/bootstrap-3.0.0.css", "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css")" />
     <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/site.css")" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/docs.css")" />
     <link rel="dns-prefetch" href="http://gravatar.com/" />
 
     <!-- Favicons -->
@@ -100,7 +101,7 @@
     }
 
     <div class="container">
-        <header role="banner">
+        <header role="banner" id="top">
             <span itemprop="name"><a href="~/" itemprop="url">@Blog.Title</a></span><br />
             <em>By Giovanni Modica</em>
         </header>
@@ -142,6 +143,20 @@
                     </div>
                 </div>
             </section>
+
+            @if (string.IsNullOrEmpty(Blog.CurrentSlug))
+            {
+            <section>
+                <div class="bs-sidebar hidden-print hidden-xs hidden-sm">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> On this page</div>
+                        <div class="panel-body">
+                            @TagIndex()
+                         </div>
+                    </div>
+                </div>
+            </section>
+            }
         </aside>
     </div>
 
@@ -244,6 +259,7 @@
         lang: en_US
     </script>
 
+    <!-- set the og:image meta element for getting the first article image. Used for sharing in social networks -->
     @if (!string.IsNullOrEmpty(Blog.CurrentSlug))
     {
         <script type="text/javascript">
@@ -263,6 +279,43 @@
             }));
         </script>
     }
+    
+@if (string.IsNullOrEmpty(Blog.CurrentSlug))
+{
+    <!-- scroll spy for tag index -->
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var $window = $(window);
+        var $body = $(document.body);
+
+        $body.scrollspy({
+            target: '.bs-sidebar'
+        });
+
+        $window.on('load', function () {
+            $body.scrollspy('refresh');
+        })
+
+        // back to top
+        var $sideBar = $('.bs-sidebar');
+
+        $sideBar.affix({
+            offset: {
+                top: function () {
+                    var offsetTop = $sideBar.offset().top;
+                    var sideBarMargin = parseInt($sideBar.children(0).css('margin-top'), 10);
+                    var navOuterHeight = $('.navbar').height();
+
+                    var result = (this.top = offsetTop - navOuterHeight - sideBarMargin);
+                    return result;
+                },
+                bottom: function () {
+                    return (this.bottom = $('.footer').outerHeight(true))
+                }
+            }
+        });
+    </script>
+}
 </body>
 
 </html>
@@ -289,4 +342,16 @@
         }
     </div>
 
+}
+
+@helper TagIndex()
+{    
+    <div id="tagindex">
+        <ul class="nav bs-sidenav">
+            @foreach (Post post in Blog.GetPosts(Blog.PostsPerPage))
+            {                
+                <li><a href="#@post.Slug">@post.Title</a></li>
+            }
+        </ul>
+    </div>
 }

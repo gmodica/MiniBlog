@@ -1,6 +1,6 @@
 ﻿
 <article class="post" data-id="@Model.ID" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-    <header class="jumbotron">
+    <header class="jumbotron" id="@Model.Slug">
         <h1 itemprop="headline name">
             <a href="@Model.Url" itemprop="url">@Model.Title</a>
         </h1>
@@ -36,6 +36,10 @@
         {
             @RenderPage("~/views/CommentForm.cshtml")
         }
+    }
+    else 
+    {
+        <footer class="hidden-print"><p style="text-align: right"><a href="#top">Go to top</a> <span class="glyphicon glyphicon-chevron-up"></span></p></footer>
     }
 </article>
 
