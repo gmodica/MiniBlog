@@ -1,6 +1,20 @@
-﻿<!-- Facebook Open Graph-->
+﻿@{
+    var description = Model.Content.Substring(0, 255);
+}
+
+<!-- Facebook Open Graph-->
 <meta property="og:title" content="@Model.Title" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + Request.RawUrl)" />
 <meta property="og:site_name" content="@Blog.Title" />
+<meta property="og:description" content="@description" />
 
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="&#64;giovannimodica">
+<meta name="twitter:domain" content="giovannimodica.com">
+<meta name="twitter:creator" content="&#64;giovannimodica">
+<meta name="twitter:title" content="@Model.Title">
+<meta name="twitter:description" content="@description">
+
+<meta name="description" content="@description" />

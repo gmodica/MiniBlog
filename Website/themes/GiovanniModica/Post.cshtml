@@ -16,8 +16,6 @@
 
     <div itemprop="articleBody">@Html.Raw(Model.Content)</div>
 
-    @ShareButtons()
-
     @if (Blog.CurrentPost != null)
     {
         <section id="comments" aria-label="Comments">
@@ -41,6 +39,10 @@
     {
         <footer class="hidden-print"><p style="text-align: right"><a href="#top">Go to top</a> <span class="glyphicon glyphicon-chevron-up"></span></p></footer>
     }
+
+    @ShareButtons()
+
+
 </article>
 
 @helper Categories()
