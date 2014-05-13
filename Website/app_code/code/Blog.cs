@@ -90,7 +90,7 @@ public static class Blog
             posts = posts.Where(p => p.Categories.Any(c => string.Equals(c, category, StringComparison.OrdinalIgnoreCase)));
         }
 
-        return posts.Skip(postsPerPage * (CurrentPage - 1)).Take(postsPerPage);
+        return posts.Skip(Blog.PostsPerPage * (CurrentPage - 1)).Take(postsPerPage);
     }
 
     public static Dictionary<string, int> GetTagCloud()
