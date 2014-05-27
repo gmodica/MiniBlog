@@ -1,5 +1,25 @@
 ﻿(function ($) {
 
+    // #region Helpers
+
+    function ConvertMarkupToValidXhtml(markup) {
+        var docImplementation = document.implementation;
+        var htmlDocument = docImplementation.createHTMLDocument("temp");
+        var xHtmlDocument = docImplementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+        var xhtmlBody = xHtmlDocument.createElementNS('http://www.w3.org/1999/xhtml', 'body');
+
+        htmlDocument.body.innerHTML = "<div>" + markup + "</div>";
+
+        xHtmlDocument.documentElement.appendChild(xhtmlBody);
+        xHtmlDocument.importNode(htmlDocument.body, true);
+        xhtmlBody.appendChild(htmlDocument.body.firstChild);
+
+        /<body.*?><div>(.*?)<\/div><\/body>/im.exec(xHtmlDocument.documentElement.innerHTML);
+        return RegExp.$1;
+    }
+
+    // #endregion
+
     var postId, isNew,
         txtTitle, txtContent, txtMessage, txtImage, chkPublish,
         btnNew, btnEdit, btnDelete, btnSave, btnCancel,
@@ -24,10 +44,10 @@
     },
     cancelEdit = function () {
         if (isNew) {
-            if (confirm("Do you want to leave this page?"))
+            if (confirm("Do you want to leave this page?")) {
                 history.back();
-        }
-        else {
+            }
+        } else {
             txtTitle.removeAttr('contentEditable');
             txtContent.removeAttr('contentEditable');
             btnCancel.focus();
@@ -50,8 +70,7 @@
                 self.attr("data-cmd", "design");
                 self.addClass("active");
                 txtContent.text(txtContent.html());
-            }
-            else {
+            } else {
                 self.attr("data-cmd", "source");
                 self.removeClass("active");
                 txtContent.html(txtContent.text());
@@ -65,12 +84,29 @@
 
         txtContent.cleanHtml();
 
+        var parsedDOM;
+
+        /*  IE9 doesn't support text/html MimeType https://github.com/madskristensen/MiniBlog/issues/35
+        
+            parsedDOM = new DOMParser().parseFromString(txtContent.html(), 'text/html');
+            parsedDOM = new XMLSerializer().serializeToString(parsedDOM);
+
+            /<body>(.*)<\/body>/im.exec(parsedDOM);
+            parsedDOM = RegExp.$1;
+        
+        */
+
+        /* When its time to drop IE9 support toggle commented region with 
+           the following statement and ConvertMarkupToXhtml function */
+        parsedDOM = ConvertMarkupToValidXhtml(txtContent.html());
+
         $.post("/post.ashx?mode=save", {
             id: postId,
             isPublished: chkPublish[0].checked,
             title: txtTitle.text().trim(),
-            content: txtContent.html(),
+            content: parsedDOM,
             categories: getPostCategories(),
+            token: document.querySelector("input[name=__RequestVerificationToken]").getAttribute("value")
         })
           .success(function (data) {
               if (isNew) {
@@ -82,15 +118,16 @@
               cancelEdit(e);
           })
           .fail(function (data) {
-              if (data.status === 409)
+              if (data.status === 409) {
                   showMessage(false, "The title is already in use");
-              else
+              } else {
                   showMessage(false, "Something bad happened. Server reported " + data.status + " " + data.statusText);
+              }
           });
     },
     deletePost = function () {
         if (confirm("Are you sure you want to delete this post?")) {
-            $.post("/post.ashx?mode=delete", { id: postId })
+            $.post("/post.ashx?mode=delete", { id: postId, token: document.querySelector("input[name=__RequestVerificationToken]").getAttribute("value") })
                 .success(function () { location.href = "/"; })
                 .fail(function () { showMessage(false, "Something went wrong. Please try again"); });
         }
@@ -109,10 +146,10 @@
     },
     getPostCategories = function () {
         var categories = '';
+
         if ($("#txtCategories").length > 0) {
             categories = $("#txtCategories").val();
-        }
-        else {
+        } else {
             $("ul.categories li a").each(function (index, item) {
                 if (categories.length > 0) {
                     categories += ",";
@@ -128,8 +165,7 @@
         $("ul.categories li").each(function (index, item) {
             if (!firstItemPassed) {
                 firstItemPassed = true;
-            }
-            else {
+            } else {
                 $(item).remove();
             }
         });
@@ -164,10 +200,13 @@
     chkPublish = $("#ispublished").find("input[type=checkbox]");
 
     $(document).keyup(function (e) {
-        if (e.keyCode === 46) // Delete key
-            deletePost();
-        else if (e.keyCode === 27) // ESC key
-            cancelEdit();
+        if (!document.activeElement.isContentEditable) {
+            if (e.keyCode === 46) { // Delete key
+                deletePost();
+            } else if (e.keyCode === 27) { // ESC key
+                cancelEdit();
+            }
+        }
     });
 
     $('.uploadimage').click(function (e) {
@@ -179,11 +218,9 @@
         editPost();
         $("#ispublished").fadeIn();
         chkPublish[0].checked = true;
-    }
-    else if (txtTitle !== null && txtTitle.length === 1 && location.pathname.length > 1) {
+    } else if (txtTitle !== null && txtTitle.length === 1 && location.pathname.length > 1) {
         btnEdit.removeAttr("disabled");
         btnDelete.removeAttr("disabled");
         $("#ispublished").css({ "display": "inline" });
     }
-
 })(jQuery);
