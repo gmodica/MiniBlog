@@ -213,4 +213,9 @@ public static class Blog
         
         return categories.Distinct();
     }
+
+    public static Dictionary<string, int> GetTagCloud()
+    {
+        return Storage.GetAllCategories();
+    }
 }
