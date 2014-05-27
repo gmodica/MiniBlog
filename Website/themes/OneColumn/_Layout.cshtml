@@ -1,9 +1,13 @@
-﻿<!doctype html>
+﻿@{
+	string next = Blog.GetNextPage();
+	string prev = Blog.GetPrevPage();
+}
+<!doctype html>
 <html lang="en-us">
 <head prefix="og: http://ogp.me/ns#">
     <meta charset="utf-8" />
     <title>@Page.Title</title>
-    <meta name="description" content="I write about web development in ASP.NET and Visual Studio" />
+    <meta name="description" content="@Blog.Description" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 
     <link type="application/rsd+xml" rel="edituri" title="RSD" href="~/views/robots/rsd" />
@@ -21,15 +25,24 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
 
     <meta property="og:title" content="@Page.Title" />
+    <meta property="og:image" content="@Blog.Image" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + Request.RawUrl)" />
+	@if (!string.IsNullOrEmpty(prev))
+	{
+		<link rel="prev" href="@prev" />
+	}
+	@if (!string.IsNullOrEmpty(next))
+	{
+		<link rel="next" href="@next" />
+	}
 </head>
 <body itemscope itemtype="http://schema.org/Blog" class="@(User.Identity.IsAuthenticated ? "admin": null)">
 
     <div class="container">
         <header role="banner">
             <span itemprop="name"><a href="~/" itemprop="url">@Blog.Title</a></span><br />
-            <em>By Mads Kristensen</em>
+            <em>@Blog.Description</em>
         </header>
 
         <div role="main" class="col-md-8 col-md-offset-2">
@@ -38,7 +51,7 @@
             @if (Page.ShowPaging != null)
             {
                 <ul class="pager">
-                    @if (Blog.GetPosts(Blog.PostsPerPage * 2).Count() > Blog.PostsPerPage)
+                    @if (Blog.GetPosts().Count() > Blog.PostsPerPage * Blog.CurrentPage)
                     {
                         <li class="previous"><a href="@Blog.GetPagingUrl(1)" rel="prev">&larr; Older</a></li>
                     }
@@ -56,7 +69,7 @@
         @if (!User.Identity.IsAuthenticated)
         {
             <span class="pull-right">
-                <a href="@FormsAuthentication.LoginUrl?ReturnUrl=@Request.RawUrl">Sign in <i class="glyphicon glyphicon-lock"></i></a>
+                <a href="@FormsAuthentication.LoginUrl?ReturnUrl=@Request.RawUrl">Sign in <i class="glyphicon glyphicon-log-in"></i></a>
             </span>
         }
         <span>
