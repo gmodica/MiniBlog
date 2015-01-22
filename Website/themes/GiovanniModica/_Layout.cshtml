@@ -121,81 +121,83 @@
             <em>By Giovanni Modica</em>
         </header>
 
-        <div role="main" class="col-md-9">
-            @RenderBody()
+        <div class="row">
 
-            @if (Page.ShowPaging != null)
-            {
-                <ul class="pager">
-                    @if (Blog.GetPosts().Count() > Blog.PostsPerPage * Blog.CurrentPage)
-                    {
-                        <li class="previous"><a href="@Blog.GetPagingUrl(1)" rel="prev">&larr; Older</a></li>
-                    }
+            <div role="main" class="col-md-9">
+                @RenderBody()
 
-                    @if (Blog.CurrentPage > 1)
-                    {
-                        <li class="next"><a href="@Blog.GetPagingUrl(-1)" rel="next">Newer &rarr;</a></li>
-                    }
-                </ul>
-            }
-        </div>
+                @if (Page.ShowPaging != null)
+                {
+                    <ul class="pager">
+                        @if (Blog.GetPosts().Count() > Blog.PostsPerPage * Blog.CurrentPage)
+                        {
+                            <li class="previous"><a href="@Blog.GetPagingUrl(1)" rel="prev">&larr; Older</a></li>
+                        }
 
-        <aside role="complementary" class="col-md-3">
-            <section>
-                <h3>About me</h3>
-                <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="~/images/profilePhoto.png" /> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
-            </section>
+                        @if (Blog.CurrentPage > 1)
+                        {
+                            <li class="next"><a href="@Blog.GetPagingUrl(-1)" rel="next">Newer &rarr;</a></li>
+                        }
+                    </ul>
+                }
+            </div>
 
-            <section>
-                <p><a href="~/feed/rss/"><img class="rss" src="~/images/rss.png" alt="RSS icon" /></a> <a href="~/feed/rss/">RSS feed</a></p>
-                <p><small>Go to <a href="http://www.grupolanka.com"><img src="~/images/lanka.png" alt="Grupo Lanka logo" style="width:auto; height:30px" /></a> <a href="http://www.grupolanka.com">Grupo Lanka</a> for more info on projects related with Salesforce and Pivotal</small></p>
-            </section>
+            <aside role="complementary" class="col-md-3">
+                <section>
+                    <h3>About me</h3>
+                    <p><img class="img-circle photo pull-left" alt="Giovanni Modica's photo" src="~/images/profilePhoto.png" /> I'm a passionate developer, expert in C# and .Net technology. I love challenges, puzzles and difficult things. When not working or programming I enjoy doing sports, watching movies and hanging out with friends. I enjoy good food, especially trying out new stuff.</p>
+                </section>
 
-            <form action="http://www.google.com" id="cse-search-box">
-                <div>
-                    <input type="hidden" name="cx" value="partner-pub-6362180614800053:8150138840" />
-                    <input type="hidden" name="ie" value="UTF-8" />
-                    <input type="text" name="q" size="20" />
-                    <input type="submit" name="sa" value="Search" />
-                </div>
-            </form>
+                <section>
+                    <p><a href="~/feed/rss/"><img class="rss" src="~/images/rss.png" alt="RSS icon" /></a> <a href="~/feed/rss/">RSS feed</a></p>
+                    <p><small>Go to <a href="http://www.grupolanka.com"><img src="~/images/lanka.png" alt="Grupo Lanka logo" style="width:auto; height:30px" /></a> <a href="http://www.grupolanka.com">Grupo Lanka</a> for more info on projects related with Salesforce and Pivotal</small></p>
+                </section>
 
-            <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
-
-            <section>
-                <div class="panel panel-default">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> Tag Cloud</div>
-                    <div class="panel-body">
-                        @TagCloud()
+                <form action="http://www.google.com" id="cse-search-box">
+                    <div>
+                        <input type="hidden" name="cx" value="partner-pub-6362180614800053:8150138840" />
+                        <input type="hidden" name="ie" value="UTF-8" />
+                        <input type="text" name="q" size="20" />
+                        <input type="submit" name="sa" value="Search" />
                     </div>
-                </div>
-            </section>
+                </form>
 
-            @if (String.IsNullOrEmpty(Blog.CurrentSlug))
-            {
-            <section>
-                <div class="bs-sidebar hidden-print hidden-xs hidden-sm">
+                <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+
+                <section>
                     <div class="panel panel-default">
-                        <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> On this page</div>
+                        <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> Tag Cloud</div>
                         <div class="panel-body">
-                            @TagIndex()
-                         </div>
+                            @TagCloud()
+                        </div>
                     </div>
-                </div>
-            </section>
-            }
-            
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Blog -->
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:120px;height:600px"
-                 data-ad-client="ca-pub-6362180614800053"
-                 data-ad-slot="3580338441"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-            
-        </aside>
+                </section>
+
+                @if (String.IsNullOrEmpty(Blog.CurrentSlug))
+                {
+                <section>
+                    <div class="bs-sidebar hidden-print hidden-xs hidden-sm">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><span class="glyphicon glyphicon-tags pull-right"></span> On this page</div>
+                            <div class="panel-body">
+                                @TagIndex()
+                             </div>
+                        </div>
+                    </div>
+                </section>
+                }
+                       
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- Blog-LeftSidebar -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:300px;height:600px"
+                     data-ad-client="ca-pub-6362180614800053"
+                     data-ad-slot="5208788842"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </aside>
+        </div>
     </div>
 
     <footer class="text-center hidden-print" role="contentinfo" itemscope itemtype="http://schema.org/Person" itemprop="author">
